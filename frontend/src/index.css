@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+@theme {
+  --font-inter: "Inter", sans-serif;
+  --font-serif: "DM Serif Text", serif;
+  
+  --color-brand-navy: #123458;   
+  --color-brand-sand: #D4C9BE;    
+  --color-brand-bone: #F1EFEC;    
+  --color-brand-rich-black: #030303; 
+  --breakpoint-vault: 1400px;
+  
+  --animate-gradient: gradient 8s linear infinite;
+  --animate-shine: shine 3s linear infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-page-smooth: pageSmooth 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  --animate-content-smooth: contentSmooth 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+
+  @keyframes gradient {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  @keyframes shine {
+    0% { top: -100%; left: -100%; }
+    100% { top: 100%; left: 100%; }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+  @keyframes pageSmooth {
+    0% { opacity: 0; filter: blur(4px); transform: translateY(4px); }
+    100% { opacity: 1; filter: blur(0); transform: translateY(0); }
+  }
+  @keyframes contentSmooth {
+    0% { opacity: 0; transform: translateY(8px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+}
+
+@layer base {
+body {
+  
+    font-family: var(--font-inter);
+  }
+
+  .dark body {
+    @apply bg-slate-950 text-slate-100;
+  }
+
+  h1, h2, h3, h4, .font-serif {
+   font-family: var(--font-serif);
+    letter-spacing: -0.01em;
+    word-spacing: 0.05em;
+  }
+
+  h1 {
+    @apply leading-[1.1];
+  }
+}
+
+.animate-pulse-slow {
+  opacity: 0.3;
+  filter: blur(120px);
+}
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+
+::-webkit-scrollbar-thumb { 
+  @apply bg-slate-300 rounded-full; 
+}
+
+.dark ::-webkit-scrollbar-thumb { 
+  @apply bg-slate-800; 
+}
+
+::-webkit-scrollbar-thumb:hover { 
+  @apply bg-slate-400; 
+}
