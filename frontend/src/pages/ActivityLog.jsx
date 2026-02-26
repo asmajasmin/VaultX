@@ -107,7 +107,7 @@ const ActivityLog = () => {
                  System Audit
                </span>
             </div>
-            <h1 className="text-4xl font-black text-[#123458] font-serif tracking-tight">
+            <h1 className="text-4xl font-black text-[#123458] font-serif tracking-wide">
               Security Log
             </h1>
           </div>

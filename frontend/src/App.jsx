@@ -6,12 +6,24 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import ContactPage from './pages/ContactPage';
 import Dashboard from './pages/Dashboard'; 
+import ForgotPassword from './pages/ForgotPassword';
 
 const App = () => {
   // --- STATE MANAGEMENT ---
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // Initialize state directly from localStorage so it survives page refreshes instantly
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('vaultToken'));
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [user, setUser] = useState({ name: 'User', tier: 'Free' });
+
+  // Backup check on mount to ensure session stays active
+  useEffect(() => {
+    const token = localStorage.getItem('vaultToken');
+    if (token) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []);
 
   // Theme Toggle Effect
   useEffect(() => {
@@ -24,13 +36,21 @@ const App = () => {
 
   const toggleTheme = () => setIsDarkMode(!isDarkMode);
 
-  const handleLoginSuccess = () => {
+  // Handle Login
+  const handleLoginSuccess = (token) => {
+    if (token) localStorage.setItem('vaultToken', token);
     setIsLoggedIn(true);
   };
 
-  // Private Route Wrapper
+  // Handle Logout (Clears the session completely)
+  const handleLogout = () => {
+    localStorage.removeItem('vaultToken');
+    setIsLoggedIn(false);
+  };
+
+  // Private Route Wrapper (Protects Dashboard)
   const PrivateRoute = ({ children }) => {
-    return isLoggedIn ? children : <Navigate to="/login" />;
+    return isLoggedIn ? children : <Navigate to="/login" replace />;
   };
 
   return (
@@ -52,7 +72,11 @@ const App = () => {
           />
         } />
 
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+
+        {/* --- Auth Routes (Redirects to Dashboard if already logged in) --- */}
         <Route path="/login" element={
+          isLoggedIn ? <Navigate to="/dashboard" replace /> : 
           <LoginPage 
             onLoginSuccess={handleLoginSuccess} 
             isDarkMode={isDarkMode} 
@@ -61,6 +85,7 @@ const App = () => {
         } />
 
         <Route path="/register" element={
+          isLoggedIn ? <Navigate to="/dashboard" replace /> : 
           <RegisterPage 
             onRegisterSuccess={handleLoginSuccess} 
             isDarkMode={isDarkMode} 
@@ -82,14 +107,14 @@ const App = () => {
             <PrivateRoute>
               <Dashboard 
                 user={user} 
-                onLogout={() => setIsLoggedIn(false)}
+                onLogout={handleLogout}
               />
             </PrivateRoute>
           } 
         />
 
         {/* Catch-all redirect */}
-        <Route path="*" element={<Navigate to="/" />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );

@@ -17,11 +17,6 @@ import {
   ArrowRight,
   Menu, 
   X, Lock,
-  MessageSquare,
-  CreditCard,
-  Sparkles,
-  Rocket,
-  User
 } from 'lucide-react';
 import Navbar from '../components/Navbar'; 
 import Footer from '../components/Footer';
@@ -68,29 +63,47 @@ const FeaturesPage = ({ onLogin, isDarkMode, toggleTheme }) => {
       <Navbar />
      
       {/* Main Content */}
-      <main className="pt-32">
-        <section className="py-20 px-6 bg-[#F1EFEC]">
-          <div className="max-w-5xl mx-auto text-center">
-           <h1 className="text-5xl md:text-7xl font-black mb-16 tracking-wider leading-[1.1] text-[#123458] font-serif">
+      <main className="pt-15">
+        <section className="py-15 px-2 bg-[#F1EFEC]">
+          <div className="max-w-6xl mx-auto text-center">
+           <h1 className="text-6xl md:text-7xl font-black mb-16 tracking-wider leading-[1.1] text-[#123458] font-serif">
              Privacy Features You<br className="hidden md:block" />   <span className="text-[#030303]">
               Can Trust.
             </span>
            </h1>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {[
-                { title: "Encrypted cloud storage", desc: "Upload and sync files across devices with military-grade security and personal access control.", icon: Cloud, bgColor: "bg-[#123458]/5" },
-                { title: "Private file sharing", desc: "Share encrypted files via password-protected links with unique security codes.", icon: Share2, bgColor: "bg-[#D4C9BE]/30" },
-                { title: "No leaks or stolen files", desc: "Proactive monitoring prevents unauthorized exposure and protects against cyber threats.", icon: ShieldAlert, bgColor: "bg-[#030303]/5" }
-              ].map((feature, i) => (
-                <div key={i} className="flex flex-col items-center group p-6 rounded-[2rem] border border-[#D4C9BE] bg-[#F1EFEC] hover:shadow-lg transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:shadow-[#000000]/50" >
-                  <div className={`w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center mb-6 relative ${feature.bgColor} transition-transform duration-500 group-hover:scale-105 shadow-inner`}>
-                    <feature.icon size={32} className="text-[#123458]" />
-                  </div>
-                  <h3 className="text-lg font-bold mb-2 text-[#123458] font-serif tracking-wider">{feature.title}</h3>
-                  <p className="text-sm text-[#123458]/70 leading-relaxed font-medium">{feature.desc}</p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {[
+              {
+                title: "Encrypted cloud storage",
+                desc: "Upload files to the cloud storage and sync it across your devices and platforms. Complete access control and saves space on your device.",
+                imgSrc: "/cloud.svg"
+              },
+              {
+                title: "Private file sharing",
+                desc: "Share your encrypted files via email or a link with anyone. A unique code adds an extra layer of security to your items.",
+                imgSrc: "/sharing.svg"
+              },
+              {
+                title: "No leaks or stolen files",
+                desc: "Keep your personal files for your eyes only. Your data is backed up and protected from unauthorized access and malware.",
+                imgSrc: "/encryption.svg"
+              }
+            ].map((feature, i) => (
+              <div key={i} className="max-w-sm mx-auto w-full bg-[#F1EFEC] border border-[#D4C9BE] rounded-[2.5rem] p-8 md:p-10 flex flex-col items-center text-center shadow-sm hover:shadow-2xl transition-all duration-500 group overflow-hidden">
+                
+                <div className="mb-8 w-full flex justify-center transform group-hover:scale-105 transition-transform duration-500">
+                  <img 
+                    src={feature.imgSrc} 
+                    alt={feature.title} 
+                    className="w-auto h-48 md:h-56 object-contain" 
+                  />
                 </div>
-              ))}
-            </div>
+                
+                <h3 className="text-2xl font-black mb-4 text-[#123458] font-serif relative z-10">{feature.title}</h3>
+                <p className="text-[#123458]/60 leading-relaxed font-medium relative z-10">{feature.desc}</p>
+              </div>
+            ))}
+          </div>
           </div>
         </section>
 
@@ -98,7 +111,7 @@ const FeaturesPage = ({ onLogin, isDarkMode, toggleTheme }) => {
           <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#D4C9BE]/5 blur-[120px] rounded-full pointer-events-none"></div>
           <div className="max-w-5xl mx-auto relative z-10">
             <div className="mb-16 space-y-4 text-center md:text-left">
-              <h2 className="text-4xl md:text-5xl font-black text-[#F1EFEC] tracking-wider font-serif">Unlock secure cloud with end-to-end encryption</h2>
+               <h2 className="text-5xl md:text-6xl font-black mb-8 md:mb-12 tracking-tight md:tracking-wide leading-[1.05] md:leading-tight text-[#ffffff] font-serif">Unlock secure cloud with end-to-end encryption</h2>
               <p className="text-lg text-[#D4C9BE] max-w-3xl leading-relaxed font-medium">Whether for business or personal privacy, benefit from VaultX's zero-knowledge architecture and industrial-grade end-to-end encryption.</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-12 gap-x-10">
@@ -126,7 +139,7 @@ const FeaturesPage = ({ onLogin, isDarkMode, toggleTheme }) => {
 
         <section className="py-20 px-6 bg-[#F1EFEC]">
           <div className="max-w-5xl mx-auto">
-            <h2 className="text-4xl md:text-6xl font-black mb-12 tracking-wider text-[#123458] font-serif text-center">Why choose encrypted storage?</h2>
+             <h2 className="text-5xl md:text-6xl font-black mb-8 md:mb-12 tracking-tight md:tracking-wide leading-[1.05] md:leading-tight text-[#123458] font-serif">Why choose encrypted storage?</h2>
             <div className="space-y-4">
               {[
                 { title: "Deter cyber attacks", desc: "Encryption adds a massive layer of defense, making data resilient to unauthorized breaches.", icon: ShieldAlert, color: "bg-[#030303]/5" },
@@ -150,7 +163,7 @@ const FeaturesPage = ({ onLogin, isDarkMode, toggleTheme }) => {
 
         <section className="py-20 px-6 bg-[#123458]">
           <div className="max-w-5xl mx-auto text-center">
-            <h2 className="text-4xl md:text-6xl font-black mb-12 tracking-wider font-serif text-[#ffffff]">Here’s what our users have to say</h2>
+            <h2 className="text-5xl md:text-6xl font-black mb-8 md:mb-12 tracking-tight md:tracking-wide leading-[1.05] md:leading-tight text-[#fbfbfb] font-serif">Here’s what our users have to say</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[
                 { name: "Marcus Thorne", role: "VP of Security", quote: "The most robust digital document sanctum I've ever deployed." },
@@ -175,7 +188,7 @@ const FeaturesPage = ({ onLogin, isDarkMode, toggleTheme }) => {
 
         <section id="faq" className="py-20 px-6 bg-[#F1EFEC]">
           <div className="max-w-5xl mx-auto">
-            <h2 className="text-4xl md:text-6xl font-black text-center mb-12 tracking-wider text-[#123458] font-serif">Frequently asked questions</h2>
+            <h2 className="text-5xl md:text-6xl font-black mb-8 md:mb-12 tracking-tight md:tracking-wide leading-[1.05] md:leading-tight text-[#123458] font-serif">Frequently asked questions</h2>
             <div className="border-t border-[#D4C9BE]/50 w-full">
               {faqs.map((faq, i) => (
                 <div key={i} className="border-b border-[#D4C9BE]/50 group">

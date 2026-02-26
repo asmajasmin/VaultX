@@ -1,22 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { 
-  ArrowRight, Cloud, Share2, ShieldAlert, FileText, Lock, Shield, 
-  Zap, Building2, CheckCircle2, ChevronDown, User 
-} from 'lucide-react';
+import { Zap, Building2, CheckCircle2, ChevronDown, User} from 'lucide-react';
 import Footer from '../components/Footer';
-import Navbar from '../components/Navbar'; // <--- Import the new component
+import Navbar from '../components/Navbar'; 
 
 const Welcome = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-  
-  // Pricing & FAQ States
   const [isYearly, setIsYearly] = useState(true);
   const [hoveredTier, setHoveredTier] = useState(1);
   const [openFaq, setOpenFaq] = useState(2);
 
-  // --- IMAGE LOADING ---
+ 
   useEffect(() => {
     const img = new Image();
     img.src = "/heroimage.png";
@@ -25,11 +20,11 @@ const Welcome = () => {
     };
   }, []);
 
-  // --- SKELETON LOADER ---
+ 
   if (loading) {
     return (
       <div className="min-h-screen bg-[#F1EFEC] px-6 pt-24 pb-12">
-        <Navbar /> {/* Show Navbar even during loading */}
+        <Navbar /> 
         <div className="max-w-vault mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20 items-center h-full">
           <div className="space-y-8 animate-pulse">
             <div className="w-48 h-8 bg-[#123458]/10 rounded-full" />
@@ -44,42 +39,35 @@ const Welcome = () => {
     );
   }
 
-  // --- MAIN CONTENT ---
   return (
     <div id="top" className="min-h-screen bg-[#F1EFEC] text-[#030303] selection:bg-[#123458]/30 overflow-x-hidden font-inter animate-in fade-in duration-700"> 
       
-      {/* REUSABLE NAVBAR */}
+     
       <Navbar />
 
-      {/* HERO SECTION */}
+     {/* HERO SECTION */}
       <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
-        {/* ... (Keep your Hero Section code exactly as it was) ... */}
         <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
           <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-[#123458]/5 blur-[120px] rounded-full" />
           <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-[#D4C9BE]/20 blur-[100px] rounded-full" />
         </div>
 
         <div className="max-w-vault mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center relative z-10">
-          <div className="space-y-8 text-center lg:text-left">
-            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-[#123458]/5 border border-[#D4C9BE] text-[10px] font-black text-[#123458] uppercase tracking-widest">
-              <div className="w-2 h-2 rounded-full bg-[#123458] animate-pulse" />
-              Vault Status: Secure
-            </div>
-
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-[#123458] tracking-tighter leading-[0.95] font-serif">
-              Your Digital <br />
-              <span className="text-[#030303]">Legacy, Under <br /> Absolute Lock.</span>
-            </h1>
+          <div className="space-y-8 text-center lg:text-left mt-10 lg:mt-0">            
+           <h1 className="text-6xl sm:text-7xl lg:text-[6.5rem] font-black text-[#0e0d55] tracking-wide md:tracking-wide leading-[0.95] md:leading-[0.95] font-serif">
+  Your Digital <br />
+  <span className="text-[#030303]">Legacy, Under <br /> Absolute Lock.</span>
+</h1>
             
-            <p className="text-lg md:text-xl text-[#123458]/70 max-w-lg mx-auto lg:mx-0 leading-relaxed font-medium">
+           <p className="text-lg md:text-xl text-[#123458]/70 max-w-lg mx-auto lg:mx-0 leading-relaxed font-medium">
               Experience the world's first zero-knowledge document sanctum. Built for those who demand absolute sovereign privacy.
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
-              <button onClick={() => navigate('/register')} className="w-full sm:w-auto bg-[#123458] text-[#F1EFEC] px-10 py-5 rounded-2xl font-black text-lg hover:opacity-90 transition-all shadow-xl shadow-[#123458]/20 hover:-translate-y-1">
+            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+              <button onClick={() => navigate('/register')} className="w-full sm:w-auto bg-[#123458] text-[#F1EFEC] px-8 py-4 md:px-10 md:py-5 rounded-2xl font-black text-lg hover:opacity-90 transition-all shadow-xl shadow-[#123458]/20 hover:-translate-y-1">
                 Begin Enrollment
               </button>
-              <button onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })} className="w-full sm:w-auto px-8 py-5 border border-[#D4C9BE] text-[#123458] rounded-2xl font-bold text-lg hover:bg-[#D4C9BE]/10 transition-all">
+              <button onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })} className="w-full sm:w-auto px-8 py-4 md:px-8 md:py-5 border border-[#D4C9BE] text-[#123458] rounded-2xl font-bold text-lg hover:bg-[#D4C9BE]/10 transition-all">
                 Learn More
               </button>
             </div>
@@ -97,51 +85,45 @@ const Welcome = () => {
         </div>
       </section>
 
-      {/* FEATURES SECTION */}
+     {/* FEATURES SECTION */}
       <section id="features" className="py-24 px-6 bg-[#F1EFEC]">
-        {/* ... (Keep Features code exactly as it was) ... */}
          <div className="max-w-vault mx-auto text-center">
           <div className="max-w-5xl mx-auto mb-16">
-            <h2 className="text-4xl md:text-6xl font-black mb-12 tracking-wider text-[#123458] font-serif">Manage files privately with confidence</h2>
-            <p className="text-xl text-[#123458]/70 leading-relaxed font-medium">VaultX keeps your data accessible without compromising its security thanks to zero-knowledge architecture and limitless end-to-end encryption.</p>
+           <h2 className="text-5xl md:text-6xl font-black mb-8 md:mb-12 tracking-tight md:tracking-wide leading-[1.05] md:leading-tight text-[#123458] font-serif">
+  Manage files privately with confidence</h2> 
+<p className="text-xl text-[#123458]/70 leading-relaxed font-medium">VaultX keeps your data accessible without compromising its security thanks to zero-knowledge architecture and limitless end-to-end encryption.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {[
               {
                 title: "Encrypted cloud storage",
                 desc: "Upload files to the cloud storage and sync it across your devices and platforms. Complete access control and saves space on your device.",
-                icon: Cloud,
-                illustration: (
-                  <div className="relative w-48 h-48 bg-[#123458]/5 rounded-full flex items-center justify-center overflow-hidden">
-                    <div className="absolute -bottom-4 bg-[#123458] w-32 h-32 rounded-3xl rotate-12 flex items-center justify-center shadow-xl"><User size={64} className="text-[#F1EFEC] -rotate-12" /></div>
-                    <div className="absolute top-4 right-4 bg-[#F1EFEC] p-2 rounded-lg shadow-lg rotate-6 border border-[#D4C9BE]"><FileText size={24} className="text-[#123458]" /></div>
-                  </div>
-                )
+                imgSrc: "/cloud.svg"
               },
               {
                 title: "Private file sharing",
                 desc: "Share your encrypted files via email or a link with anyone. A unique code adds an extra layer of security to your items.",
-                icon: Share2,
-                illustration: (
-                  <div className="relative w-48 h-48 bg-[#D4C9BE]/20 rounded-full flex items-center justify-center overflow-hidden">
-                    <div className="bg-[#F1EFEC] w-24 h-44 rounded-2xl border-4 border-[#123458] shadow-2xl flex flex-col items-center justify-center relative"><Lock size={32} className="text-[#123458]" /></div>
-                  </div>
-                )
+                imgSrc: "/sharing.svg"
               },
               {
                 title: "No leaks or stolen files",
                 desc: "Keep your personal files for your eyes only. Your data is backed up and protected from unauthorized access and malware.",
-                icon: ShieldAlert,
-                illustration: (
-                  <div className="relative w-48 h-48 bg-[#F1EFEC] border border-[#D4C9BE] rounded-full flex items-center justify-center"><Shield size={64} className="text-[#123458] fill-[#123458]/5" /></div>
-                )
+                imgSrc: "/encryption.svg"
               }
             ].map((feature, i) => (
-              <div key={i} className="bg-[#F1EFEC] border border-[#D4C9BE] rounded-[2.5rem] p-10 flex flex-col items-center text-center shadow-sm hover:shadow-xl transition-all duration-500 group">
-                <div className="mb-10 transform group-hover:scale-110 transition-transform duration-500">{feature.illustration}</div>
-                <h3 className="text-2xl font-black mb-4 text-[#123458] font-serif">{feature.title}</h3>
-                <p className="text-[#123458]/60 leading-relaxed font-medium">{feature.desc}</p>
+              <div key={i} className="max-w-sm mx-auto w-full bg-[#F1EFEC] border border-[#D4C9BE] rounded-[2.5rem] p-8 md:p-10 flex flex-col items-center text-center shadow-sm hover:shadow-2xl transition-all duration-500 group overflow-hidden">
+                
+                <div className="mb-8 w-full flex justify-center transform group-hover:scale-105 transition-transform duration-500">
+                  <img 
+                    src={feature.imgSrc} 
+                    alt={feature.title} 
+                    className="w-auto h-48 md:h-56 object-contain" 
+                  />
+                </div>
+                
+                <h3 className="text-2xl font-black mb-4 text-[#123458] font-serif relative z-10">{feature.title}</h3>
+                <p className="text-[#123458]/60 leading-relaxed font-medium relative z-10">{feature.desc}</p>
               </div>
             ))}
           </div>
@@ -150,10 +132,9 @@ const Welcome = () => {
 
       {/* PRICING SECTION */}
       <section id="pricing" className="py-24 px-6 bg-[#D4C9BE]/10 border-y border-[#D4C9BE]">
-        {/* ... (Keep Pricing code exactly as it was) ... */}
         <div className="max-w-vault mx-auto">
           <div className="text-center mb-16 space-y-4">
-            <h2 className="text-4xl md:text-6xl font-black mb-12 text-[#123458] font-serif">Professional Tiers</h2>
+            <h2 className="text-5xl md:text-6xl font-black mb-8 md:mb-12 tracking-tight md:tracking-wide leading-[1.05] md:leading-tight text-[#123458] font-serif">Professional Tiers</h2>
             <div className="flex items-center justify-center gap-4 text-sm font-bold">
               <span className={!isYearly ? "text-[#123458]" : "text-[#123458]/40"}>Monthly</span>
               <button onClick={() => setIsYearly(!isYearly)} className="w-12 h-6 bg-[#D4C9BE] rounded-full p-1 transition-colors hover:bg-[#D4C9BE]/80">
@@ -189,9 +170,10 @@ const Welcome = () => {
       {/* FAQ SECTION */}
       <section id="faq" className="py-20 px-6 bg-[#F1EFEC]">
         {/* ... (Keep FAQ code exactly as it was) ... */}
-         <div className="max-w-5xl mx-auto">
-          <h2 className="text-4xl md:text-6xl font-black text-center mb-12 text-[#123458] font-serif">Frequently asked questions</h2>
-          <div className="border-t border-[#D4C9BE]/50 w-full">
+         <div className="max-w-6xl mx-auto">
+         <h2 className="text-center text-5xl md:text-6xl font-black mb-8 md:mb-12 tracking-tight md:tracking-wide leading-[1.05] md:leading-tight text-[#123458] font-serif">
+      Frequently asked questions
+    </h2> <div className="border-t border-[#D4C9BE]/50 w-full">
             {[
               { q: "What is VaultX?", a: "VaultX is a military-grade digital sovereign sanctum designed to protect your most sensitive documents through advanced client-side encryption and zero-knowledge storage protocols." },
               { q: "What does VaultX Premium offer?", a: "Premium provides 50GB of secure storage, AI-powered security auditing, biometric hardware key support, multi-device synchronization, and priority recovery services for elite users." },

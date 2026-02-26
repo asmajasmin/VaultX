@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
-  ShieldCheck, Mail, Phone, MapPin, MessageSquare, Send, Menu, X, ArrowRight, Globe, LifeBuoy, Building2, Clock, Sparkles,
-  User, CreditCard, HelpCircle, Rocket } from 'lucide-react';
-  import Navbar from '../components/Navbar'; 
+  Send, Menu, X, ArrowRight, Globe, LifeBuoy, Building2, Clock, Sparkles,
+  User, CreditCard, HelpCircle, Rocket 
+} from 'lucide-react';
+import Navbar from '../components/Navbar'; 
 import Footer from '../components/Footer';
+import { API_BASE_URL } from '../config'; // <-- Added this import
 
 const ContactPage = ({ isDarkMode, toggleTheme }) => {
   const navigate = useNavigate();
@@ -28,14 +30,34 @@ const ContactPage = ({ isDarkMode, toggleTheme }) => {
     return () => { document.body.style.overflow = 'unset'; };
   }, [isMenuOpen]);
 
-  const handleSubmit = (e) => {
+  // --- REAL BACKEND SUBMIT FUNCTION ---
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setTimeout(() => {
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/contact/submit`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formState)
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        alert('Your secure transmission has been received. Our agents will respond shortly.');
+        setFormState({ name: '', email: '', subject: '', message: '' }); // Clear form
+      } else {
+        alert(data.message || 'Transmission failed. Please try again.');
+      }
+    } catch (error) {
+      console.error('Submission error:', error);
+      alert('Network error. Failed to reach the server.');
+    } finally {
       setIsSubmitting(false);
-      alert('Your secure transmission has been received. Our agents will respond shortly.');
-      setFormState({ name: '', email: '', subject: '', message: '' });
-    }, 2000);
+    }
   };
 
   const contactMethods = [
@@ -65,25 +87,18 @@ const ContactPage = ({ isDarkMode, toggleTheme }) => {
   return (
     <div className="min-h-screen bg-[#F1EFEC] text-[#030303] transition-colors duration-300 font-inter animate-page-smooth">
       {/* Navbar */}
-     <Navbar />
+      <Navbar />
 
       {/* Hero Section */}
-      <section className="relative pt-44 pb-20 px-6 overflow-hidden">
+      <section className="relative pt-34 pb-20 px-6 overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] bg-[#123458]/5 blur-[150px] rounded-full -z-10"></div>
         <div className="max-w-vault mx-auto text-center space-y-8 relative z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#D4C9BE]/30 border border-[#D4C9BE] text-[10px] font-black text-[#123458] uppercase tracking-[0.3em]">
-            <MessageSquare size={14} className="animate-pulse" />
-            Direct Communication
-          </div>
-          <h1 className="text-5xl md:text-7xl font-black tracking-wideest leading-none font-serif text-[#123458]">
+          <h1 className="text-6xl md:text-7xl font-black tracking-wide leading-none font-serif text-[#123458] mt-12">
             Get in touch with the <br />
             <span className="text-[#030303]">
               Vault Guardians.
             </span>
           </h1>
-          <p className="text-xl text-[#123458]/70 max-w-2xl mx-auto font-medium leading-relaxed">
-            Have questions about your sovereign security? Our technical experts and support team are standing by to ensure your sanctum remains impenetrable.
-          </p>
         </div>
       </section>
 
@@ -135,128 +150,88 @@ const ContactPage = ({ isDarkMode, toggleTheme }) => {
             </div>
           </div>
 
-        {/* Form Column */}
-        <div className="lg:col-span-8">
-        <div className="bg-[#123458] border border-[#D4C9BE]/30 p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden group">
-          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#D4C9BE]/10 blur-[80px] rounded-full pointer-events-none"></div>
-          
-          <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6 relative z-10">
-             <div className="space-y-2">
-               <h3 className="text-3xl font-black tracking-wide text-[#F1EFEC] font-serif">Secure Transmission</h3>
-               <p className="text-[#D4C9BE] font-medium opacity-80">Your message is encrypted end-to-end via TLS 1.3.</p>
-             </div>
-             <div className="p-4 bg-[#F1EFEC]/10 rounded-2xl flex items-center gap-4 border border-[#D4C9BE]/20 backdrop-blur-md">
-                <div className="w-10 h-10 rounded-xl bg-[#F1EFEC] flex items-center justify-center text-[#123458]">
-                   <ShieldCheck size={20} />
+          {/* Form Column */}
+          <div className="lg:col-span-8">
+            <div className="bg-[#123458] border border-[#D4C9BE]/30 p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden group">
+              <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#D4C9BE]/10 blur-[80px] rounded-full pointer-events-none"></div>
+              
+              <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6 relative z-10">
+                 <div className="space-y-2">
+                   <h3 className="text-3xl font-black tracking-wide text-[#F1EFEC] font-serif">Secure Transmission</h3>
+                 </div>
+              </div>
+
+              <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-[12px] font-black uppercase tracking-widest text-[#D4C9BE] ml-1">Name</label>
+                    <input 
+                      required
+                      value={formState.name}
+                      onChange={(e) => setFormState({...formState, name: e.target.value})}
+                      type="text" 
+                      className="w-full bg-[#F1EFEC] border border-[#D4C9BE] rounded-2xl py-4 px-6 focus:outline-none focus:ring-4 focus:ring-[#D4C9BE]/20 focus:border-[#F1EFEC] transition-all font-semibold shadow-sm text-[#030303] placeholder-[#123458]/40"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[12px] font-black uppercase tracking-widest text-[#D4C9BE] ml-1">Email</label>
+                    <input 
+                      required
+                      value={formState.email}
+                      onChange={(e) => setFormState({...formState, email: e.target.value})}
+                      type="email"
+                      className="w-full bg-[#F1EFEC] border border-[#D4C9BE] rounded-2xl py-4 px-6 focus:outline-none focus:ring-4 focus:ring-[#D4C9BE]/20 focus:border-[#F1EFEC] transition-all font-semibold shadow-sm text-[#030303] placeholder-[#123458]/40"
+                    />
+                  </div>
                 </div>
-                <div>
-                  <p className="text-[10px] font-black uppercase tracking-widest text-[#D4C9BE]">Encryption</p>
-                  <p className="text-xs font-black text-[#F1EFEC]">AES-256 Enabled</p>
+
+                <div className="space-y-2">
+                  <label className="text-[12px] font-black uppercase tracking-widest text-[#D4C9BE] ml-1">Subject</label>
+                  <select 
+                    required
+                    value={formState.subject}
+                    onChange={(e) => setFormState({...formState, subject: e.target.value})}
+                    className="w-full bg-[#F1EFEC] border border-[#D4C9BE] rounded-2xl py-4 px-6 focus:outline-none focus:ring-4 focus:ring-[#D4C9BE]/20 focus:border-[#F1EFEC] transition-all font-semibold shadow-sm text-[#030303] appearance-none cursor-pointer"
+                  >
+                    <option value="" disabled>Select inquiry type...</option>
+                    <option value="technical">Technical Vault Issues</option>
+                    <option value="billing">Billing & Tiers</option>
+                    <option value="security">Security Vulnerability Report</option>
+                    <option value="other">Other</option>
+                  </select>
                 </div>
-             </div>
+
+                <div className="space-y-2">
+                  <label className="text-[12px] font-black uppercase tracking-widest text-[#D4C9BE] ml-1">Message</label>
+                  <textarea 
+                    required
+                    value={formState.message}
+                    onChange={(e) => setFormState({...formState, message: e.target.value})}
+                    rows={5} 
+                    placeholder="Describe your request in detail..."
+                    className="w-full bg-[#F1EFEC] border border-[#D4C9BE] rounded-2xl py-4 px-6 focus:outline-none focus:ring-4 focus:ring-[#D4C9BE]/20 focus:border-[#F1EFEC] transition-all font-semibold shadow-sm text-[#030303] placeholder-[#123458]/40 resize-none"
+                  ></textarea>
+                </div>
+
+                <button 
+                  disabled={isSubmitting}
+                  className="w-full group relative bg-[#F1EFEC] hover:bg-[#D4C9BE] text-[#123458] py-5 px-8 rounded-2xl font-black text-xl transition-all shadow-xl active:scale-[0.98] disabled:opacity-50 hover:-translate-y-1 overflow-hidden"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#123458]/5 to-transparent -translate-x-full group-hover:animate-[shine_1.5s_infinite] transition-transform"></div>
+                  <div className="flex items-center justify-center gap-4 relative z-10">
+                    {isSubmitting ? (
+                      <div className="w-6 h-6 border-[3px] border-[#123458]/30 border-t-[#123458] rounded-full animate-spin"></div>
+                    ) : (
+                      <>
+                        <span className="tracking-wide text-[#123458]">Send</span>
+                        <Send size={22} className="group-hover:translate-x-2 group-hover:-translate-y-1 transition-transform duration-300" />
+                      </>
+                    )}
+                  </div>
+                </button>
+              </form>
+            </div>
           </div>
-
-          <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-[#D4C9BE] ml-1">Your Identity (Name)</label>
-                <input 
-                  required
-                  value={formState.name}
-                  onChange={(e) => setFormState({...formState, name: e.target.value})}
-                  type="text" 
-                  placeholder="Alex" 
-                  className="w-full bg-[#F1EFEC] border border-[#D4C9BE] rounded-2xl py-4 px-6 focus:outline-none focus:ring-4 focus:ring-[#D4C9BE]/20 focus:border-[#F1EFEC] transition-all font-semibold shadow-sm text-[#030303] placeholder-[#123458]/40"
-                />
-              </div>
-              <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-[#D4C9BE] ml-1">Secure Email</label>
-                <input 
-                  required
-                  value={formState.email}
-                  onChange={(e) => setFormState({...formState, email: e.target.value})}
-                  type="email" 
-                  placeholder="alex@gmail.com" 
-                  className="w-full bg-[#F1EFEC] border border-[#D4C9BE] rounded-2xl py-4 px-6 focus:outline-none focus:ring-4 focus:ring-[#D4C9BE]/20 focus:border-[#F1EFEC] transition-all font-semibold shadow-sm text-[#030303] placeholder-[#123458]/40"
-                />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-[10px] font-black uppercase tracking-widest text-[#D4C9BE] ml-1">Subject of Transmission</label>
-              <select 
-                required
-                value={formState.subject}
-                onChange={(e) => setFormState({...formState, subject: e.target.value})}
-                className="w-full bg-[#F1EFEC] border border-[#D4C9BE] rounded-2xl py-4 px-6 focus:outline-none focus:ring-4 focus:ring-[#D4C9BE]/20 focus:border-[#F1EFEC] transition-all font-semibold shadow-sm text-[#030303] appearance-none cursor-pointer"
-              >
-                <option value="" disabled>Select inquiry type...</option>
-                <option value="technical">Technical Vault Issues</option>
-                <option value="billing">Billing & Tiers</option>
-                <option value="security">Security Vulnerability Report</option>
-                <option value="other">General Inquiry</option>
-              </select>
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-[10px] font-black uppercase tracking-widest text-[#D4C9BE] ml-1">Message Protocol</label>
-              <textarea 
-                required
-                value={formState.message}
-                onChange={(e) => setFormState({...formState, message: e.target.value})}
-                rows={5} 
-                placeholder="Describe your request in detail..."
-                className="w-full bg-[#F1EFEC] border border-[#D4C9BE] rounded-2xl py-4 px-6 focus:outline-none focus:ring-4 focus:ring-[#D4C9BE]/20 focus:border-[#F1EFEC] transition-all font-semibold shadow-sm text-[#030303] placeholder-[#123458]/40 resize-none"
-              ></textarea>
-            </div>
-
-            <button 
-              disabled={isSubmitting}
-              className="w-full group relative bg-[#F1EFEC] hover:bg-[#D4C9BE] text-[#123458] py-5 px-8 rounded-2xl font-black text-xl transition-all shadow-xl active:scale-[0.98] disabled:opacity-50 hover:-translate-y-1 overflow-hidden"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#123458]/5 to-transparent -translate-x-full group-hover:animate-[shine_1.5s_infinite] transition-transform"></div>
-              <div className="flex items-center justify-center gap-4 relative z-10">
-                {isSubmitting ? (
-                  <div className="w-6 h-6 border-[3px] border-[#123458]/30 border-t-[#123458] rounded-full animate-spin"></div>
-                ) : (
-                  <>
-                    <span className="tracking-wide text-[#123458]">Initiate Secure Send</span>
-                    <Send size={22} className="group-hover:translate-x-2 group-hover:-translate-y-1 transition-transform duration-300" />
-                  </>
-                )}
-              </div>
-            </button>
-          </form>
-        </div>
-          
-          <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
-             <div className="flex items-start gap-4 p-6 bg-[#D4C9BE]/10 rounded-3xl border border-[#D4C9BE]">
-                <div className="w-10 h-10 bg-[#123458]/10 rounded-xl flex items-center justify-center text-[#123458]">
-                  <MapPin size={20} />
-                </div>
-                <div>
-                  <h5 className="font-black text-sm uppercase tracking-widest mb-1 text-[#123458]">Corporate HQ</h5>
-                  <p className="text-sm text-[#123458]/70 font-medium leading-relaxed">
-                    1201 Encryption Way, Suite 400<br />
-                    Palo Alto, CA 94301, USA
-                  </p>
-                </div>
-             </div>
-             <div className="flex items-start gap-4 p-6 bg-[#D4C9BE]/10 rounded-3xl border border-[#D4C9BE]">
-                <div className="w-10 h-10 bg-[#123458]/10 rounded-xl flex items-center justify-center text-[#123458]">
-                  <Phone size={20} />
-                </div>
-                <div>
-                  <h5 className="font-black text-sm uppercase tracking-widest mb-1 text-[#123458]">Encrypted Line</h5>
-                  <p className="text-sm text-[#123458]/70 font-medium leading-relaxed">
-                    +1 (888) VAULT-SEC<br />
-                    Priority response for Enterprise
-                  </p>
-                </div>
-             </div>
-          </div>
-        </div>
-
         </div>
       </section>
 

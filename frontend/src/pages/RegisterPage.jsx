@@ -131,9 +131,9 @@ const RegisterPage = ({ onRegisterSuccess }) => {
 
   const getStepBranding = () => {
     switch(step) {
-      case 'account': return { tag: "Identity Protocol", title: "Claim your space in the vault.", desc: "Create your decentralized profile in seconds.", icon: <User size={40} className="text-[#123458]" /> };
-      case 'plan': return { tag: "Scaling Access", title: "Choose your level of protection.", desc: "Pick the tier that matches your security needs.", icon: <Zap size={40} className="text-[#123458]" /> };
-      case 'payment': return { tag: "Secure Settlement", title: "Finalizing your digital sanctum.", desc: "Billing info is protected by zero-leakage bridges.", icon: <ShieldCheck size={40} className="text-[#123458]" /> };
+      case 'account': return {  title: "Claim your space in the vault.", desc: "Create your decentralized profile in seconds.", icon: <User size={40} className="text-[#123458]" /> };
+      case 'plan': return { title: "Choose your level of protection.", desc: "Pick the tier that matches your security needs.", icon: <Zap size={40} className="text-[#123458]" /> };
+      case 'payment': return { title: "Finalizing your digital sanctum.", desc: "Billing info is protected by zero-leakage bridges.", icon: <ShieldCheck size={40} className="text-[#123458]" /> };
       default: return {};
     }
   };
@@ -157,12 +157,12 @@ const RegisterPage = ({ onRegisterSuccess }) => {
             <span className="text-2xl font-black font-serif">VaultX</span>
           </div>
           <div className="space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F1EFEC]/10 border border-[#D4C9BE]/30 text-[10px] font-black uppercase tracking-[0.3em]"><Zap size={12} className="animate-pulse" /> {branding.tag}</div>
+           
             <h1 className="text-6xl font-black font-serif leading-tight">{branding.title}</h1>
             <p className="text-[#D4C9BE]/80 text-lg font-medium max-w-sm">{branding.desc}</p>
           </div>
         </div>
-        <p className="z-10 text-[10px] font-bold text-[#D4C9BE]/40 uppercase tracking-[0.2em]">Verified Security System &copy; 2026</p>
+        <p className="z-10 text-[10px] font-bold text-[#D4C9BE]/40 uppercase tracking-[0.2em]">Verified &copy; 2026</p>
       </div>
 
       {/* Form Side */}
@@ -174,7 +174,7 @@ const RegisterPage = ({ onRegisterSuccess }) => {
         <div className="w-full max-w-xl mx-auto space-y-8">
           <div className="space-y-2">
             <h2 className="text-5xl font-black text-[#123458] font-serif">{step === 'account' ? 'Create Account' : step === 'plan' ? 'Select Plan' : 'Secure Billing'}</h2>
-            <p className="text-[#123458]/60 font-medium">Please provide the necessary details below.</p>
+            <p className="text-[#000000] text-2xl font-bold">The payment is on demo mode for now </p>
           </div>
 
           <div className="min-h-[380px]">

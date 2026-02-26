@@ -51,7 +51,7 @@ body {
 
   h1, h2, h3, h4, .font-serif {
    font-family: var(--font-serif);
-    letter-spacing: -0.01em;
+    letter-spacing: 0em;
     word-spacing: 0.05em;
   }
 

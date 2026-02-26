@@ -20,9 +20,13 @@ const UserSchema = new mongoose.Schema({
   },
   tier: { 
     type: String, 
-    // FIX: Changed 'Pro' to 'Professional' to match frontend
     enum: ['Personal', 'Professional', 'Enterprise'], 
     default: 'Personal'
+  },
+  // --- ADDED THIS TO TRACK STORAGE LIMIT ---
+  storageLimit: {
+    type: mongoose.Schema.Types.Mixed, // Allows Number (1024) or String ('Unlimited')
+    default: 1024
   },
   
   billing: {

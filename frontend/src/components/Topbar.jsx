@@ -194,7 +194,7 @@ const Topbar = ({ user }) => {
         {/* --- PROFILE DROPDOWN AREA (FIXED) --- */}
         <div className="flex items-center gap-4 pl-6 border-l border-[#D4C9BE]">
           <div className="text-right hidden sm:block">
-            <p className="text-xs font-black text-[#123458] font-serif tracking-tight leading-none mb-1">
+            <p className="text-xs font-black text-[#123458] font-serif tracking-wide leading-none mb-1">
               {/* Uses optional chaining to prevent crash and checks for name OR username */}
               {user?.name || user?.username || 'Authorized User'}
             </p>

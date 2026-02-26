@@ -10,7 +10,7 @@ const MoveModal = ({ isOpen, onClose, folders, onConfirm, fileName }) => {
         <div className="flex justify-between items-start mb-6">
           <div>
             <h3 className="text-2xl font-black text-[#123458] font-serif">Relocate Item</h3>
-            <p className="text-xs font-bold text-[#D4C9BE] uppercase tracking-tighter mt-1">{fileName}</p>
+            <p className="text-xs font-bold text-[#D4C9BE] uppercase tracking-wideer mt-1">{fileName}</p>
           </div>
           <button onClick={onClose} className="p-2 hover:bg-[#D4C9BE]/20 rounded-full text-[#123458]"><X size={20}/></button>
         </div>
