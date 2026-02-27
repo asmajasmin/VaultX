@@ -3,7 +3,7 @@ const router = express.Router();
 const auth = require('../middleware/authMiddleware');
 const File = require('../models/File');
 const { upload } = require('../config/cloudinaryConfig'); 
-const logActivity = require('../utils/activityLogger'); // Ensure this file exists!
+const logActivity = require('../utils/activityLogger'); 
 
 // --- DIRECT CLOUDINARY IMPORT (Fixes 500 Errors) ---
 const cloudinary = require('cloudinary').v2;
@@ -13,7 +13,6 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-// --- 1. FETCH ALL FILES ---
 router.get('/all', auth, async (req, res) => {
   try {
     const files = await File.find({ user: req.user.id }).sort({ createdAt: -1 });
@@ -45,7 +44,7 @@ router.get('/search', auth, async (req, res) => {
 // --- 3. ACTIVITY LOGS ROUTE (Fixes 404 Error) ---
 router.get('/logs', auth, async (req, res) => {
   try {
-    // Lazy load Activity model to avoid circular dependency issues
+  
     const Activity = require('../models/Activity'); 
     const logs = await Activity.find({ user: req.user.id })
       .sort({ createdAt: -1 })
@@ -72,8 +71,7 @@ router.post('/create-folder', auth, async (req, res) => {
     });
     await folder.save();
     
-    // Log Activity
-    await logActivity(req.user.id, "CREATE_FOLDER", `Created folder: ${fileName}`);
+     await logActivity(req.user.id, "CREATE_FOLDER", `Created folder: ${fileName}`);
     
     res.json({ success: true, folder });
   } catch (err) {
@@ -82,7 +80,6 @@ router.post('/create-folder', auth, async (req, res) => {
   }
 });
 
-// --- 5. UPLOAD FILE ---
 router.post('/upload', auth, upload.single('file'), async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ success: false, msg: 'No file provided' });
@@ -101,7 +98,6 @@ router.post('/upload', auth, upload.single('file'), async (req, res) => {
 
     await newFile.save();
 
-    // Log Activity
     await logActivity(req.user.id, "UPLOAD", `Uploaded file: ${newFile.fileName}`);
 
     res.status(200).json({ success: true, file: newFile });
@@ -111,24 +107,23 @@ router.post('/upload', auth, upload.single('file'), async (req, res) => {
   }
 });
 
-// --- 6. MOVE FILE ---
 router.put('/move/:id', auth, async (req, res) => {
   try {
     const { targetFolderId } = req.body;
-    const file = await File.findOneAndUpdate(
-      { _id: req.params.id, user: req.user.id },
-      { parentId: targetFolderId },
+      const file = await File.findOneAndUpdate(
+      { _id: req.params.id, userId: req.user.id }, 
+      { $set: { parentId: targetFolderId } },
       { new: true }
     );
-    if (!file) return res.status(404).json({ success: false, msg: 'File not found' });
 
-    // Log Activity
-    await logActivity(req.user.id, "MOVE", `Moved file: ${file.fileName}`);
+    if (!file) {
+      return res.status(404).json({ success: false, message: 'File not found' });
+    }
 
     res.json({ success: true, file });
-  } catch (err) {
-    console.error("Move Error:", err);
-    res.status(500).json({ success: false, msg: 'Move failed' });
+  } catch (error) {
+    console.error("Move file error:", error);
+    res.status(500).json({ success: false, message: 'Server Error' });
   }
 });
 
@@ -138,10 +133,7 @@ router.delete('/:id', auth, async (req, res) => {
     const target = await File.findOne({ _id: req.params.id, user: req.user.id });
     if (!target) return res.status(404).json({ success: false, msg: 'Item not found.' });
 
-    // Log Activity BEFORE delete
     await logActivity(req.user.id, "DELETE", `Purged item: ${target.fileName}`);
-
-    // A. IF FOLDER: Cascading Delete
     if (target.isFolder) {
       const children = await File.find({ parentId: target._id, user: req.user.id });
       for (const child of children) {
@@ -155,8 +147,7 @@ router.delete('/:id', auth, async (req, res) => {
       return res.json({ success: true, msg: 'Folder purged.' });
     }
 
-    // B. IF FILE: Standard Delete
-    if (target.publicId) {
+        if (target.publicId) {
       try { await cloudinary.uploader.destroy(target.publicId); } 
       catch (e) { console.error("Cloudinary delete error", e); }
     }

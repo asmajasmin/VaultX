@@ -1,8 +1,13 @@
+
 const express = require('express');
 const router = express.Router();
 const { register, login, getMe, changePassword } = require('../controllers/authController'); 
 const auth = require('../middleware/authMiddleware');
 const User = require('../models/User'); 
+<<<<<<< HEAD
+const bcrypt = require('bcryptjs');
+=======
+>>>>>>> 4cc5ae43355cd0692dca0820065c90a08fb55f62
 
 router.post('/register', register); 
 router.post('/login', login);
@@ -81,4 +86,8 @@ router.put('/upgrade-plan', auth, async (req, res) => {
   }
 });
 
+<<<<<<< HEAD
 module.exports = router;
+=======
+module.exports = router;
+>>>>>>> 4cc5ae43355cd0692dca0820065c90a08fb55f62

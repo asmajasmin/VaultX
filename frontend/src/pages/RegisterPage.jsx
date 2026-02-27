@@ -284,6 +284,7 @@ const RegisterPage = ({ onRegisterSuccess }) => {
                   <div><p className="text-[10px] font-black uppercase opacity-50">Selected Plan</p><p className="text-xl font-black">{pricingTiers[selectedPlan].name} Tier</p></div>
                   <p className="text-2xl font-black">₹{pricingTiers[selectedPlan].price}.00</p>
                 </div>
+                <p className="text-[#002144] font-bold">The payment is on demo mode for now.</p>
                 <div className="space-y-4">
                   <div className="space-y-1.5">
                     <label className={labelClass}>Card Information</label>

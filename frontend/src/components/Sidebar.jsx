@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+
+=======
+>>>>>>> 4cc5ae43355cd0692dca0820065c90a08fb55f62
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { 
@@ -49,10 +53,17 @@ const Sidebar = ({ collapsed, setCollapsed, onLogout }) => {
   return (
     <>
       {/* --- MOBILE TOGGLE BUTTON (Floating bottom right) --- */}
+<<<<<<< HEAD
+      <button 
+        onClick={() => setMobileMenuOpen(true)}
+        // Added shadow-emerald-500/20 to give it a subtle glowing presence
+        className="lg:hidden fixed bottom-6 right-6 z-[60] bg-[#123458] text-[#F1EFEC] p-4 rounded-full shadow-[0_0_20px_rgba(18,52,88,0.4)] hover:scale-105 active:scale-95 transition-all border-2 border-[#D4C9BE]/30"
+=======
       {/* We add a floating action button just for mobile to open the menu */}
       <button 
         onClick={() => setMobileMenuOpen(true)}
         className="lg:hidden fixed bottom-6 right-6 z-[60] bg-[#123458] text-[#F1EFEC] p-4 rounded-full shadow-2xl active:scale-95 transition-transform border-2 border-[#D4C9BE]/20"
+>>>>>>> 4cc5ae43355cd0692dca0820065c90a08fb55f62
       >
         <Menu size={24} />
       </button>
@@ -75,7 +86,11 @@ const Sidebar = ({ collapsed, setCollapsed, onLogout }) => {
         `}
       >
         {/* --- Brand Header --- */}
+<<<<<<< HEAD
+        <div className="h-20 flex items-center justify-between px-6 mb-2 relative">
+=======
         <div className="h-20 flex items-center justify-between px-6 mb-2">
+>>>>>>> 4cc5ae43355cd0692dca0820065c90a08fb55f62
           {(!collapsed || mobileMenuOpen) && (
             <div 
               onClick={() => handleNavigation('/dashboard')}
@@ -92,18 +107,36 @@ const Sidebar = ({ collapsed, setCollapsed, onLogout }) => {
           {(collapsed && !mobileMenuOpen) && (
             <div 
               onClick={() => handleNavigation('/dashboard')}
+<<<<<<< HEAD
+              className="w-full flex justify-center cursor-pointer hidden lg:flex mt-4"
+=======
               className="w-full flex justify-center cursor-pointer hidden lg:flex"
+>>>>>>> 4cc5ae43355cd0692dca0820065c90a08fb55f62
             >
               <ShieldCheck size={28} className="text-[#D4C9BE] hover:scale-110 transition-transform" />
             </div>
           )}
 
+<<<<<<< HEAD
+          {/* FIX: BIG, EYE-CATCHING DESKTOP TOGGLE BUTTON */}
+          <button 
+            onClick={() => setCollapsed(!collapsed)}
+            // Changed to w-10 h-10, bright white/beige background, thick blue border, and strong drop shadow
+            className="hidden lg:flex items-center justify-center w-10 h-10 rounded-full bg-[#F1EFEC] text-[#123458] hover:bg-[#D4C9BE] hover:scale-110 transition-all duration-300 absolute -right-5 top-10 shadow-[0_0_15px_rgba(0,0,0,0.5)] border-[3px] border-[#123458] z-50"
+            title={collapsed ? "Expand Sidebar" : "Collapse Sidebar"}
+          >
+            {collapsed 
+              ? <ChevronRight size={24} strokeWidth={3} className="ml-0.5" /> 
+              : <ChevronLeft size={24} strokeWidth={3} className="mr-0.5" />
+            }
+=======
           {/* Desktop Collapse Toggle Button */}
           <button 
             onClick={() => setCollapsed(!collapsed)}
             className={`hidden lg:flex items-center justify-center w-6 h-6 rounded-lg bg-[#F1EFEC]/10 text-[#D4C9BE] hover:bg-[#F1EFEC] hover:text-[#123458] transition-all absolute -right-3 top-8 shadow-lg border border-[#123458] z-50`}
           >
             {collapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
+>>>>>>> 4cc5ae43355cd0692dca0820065c90a08fb55f62
           </button>
 
           {/* Mobile Close Button */}
@@ -116,7 +149,11 @@ const Sidebar = ({ collapsed, setCollapsed, onLogout }) => {
         </div>
 
         {/* --- Navigation Menu --- */}
+<<<<<<< HEAD
+        <nav className="flex-1 px-4 space-y-2 overflow-y-auto custom-scrollbar py-4 mt-2">
+=======
         <nav className="flex-1 px-4 space-y-2 overflow-y-auto custom-scrollbar py-4">
+>>>>>>> 4cc5ae43355cd0692dca0820065c90a08fb55f62
           
           {/* Added Home Link */}
           <button
@@ -184,9 +221,13 @@ const Sidebar = ({ collapsed, setCollapsed, onLogout }) => {
              {(!collapsed || mobileMenuOpen) && (
                <div className="flex flex-col items-start overflow-hidden">
                   <span className="text-[#F1EFEC] group-hover:text-rose-500 font-bold text-sm tracking-wide transition-colors truncate">Sign Out</span>
+<<<<<<< HEAD
+                  <span className="text-[10px] text-[#D4C9BE]/50 uppercase tracking-wide truncate">End Session</span>
+=======
                   <span className="text-[10px] text-[#D4C9BE]/50 uppercase tracking-wide
                   
                   truncate">End Session</span>
+>>>>>>> 4cc5ae43355cd0692dca0820065c90a08fb55f62
                </div>
              )}
            </button>
